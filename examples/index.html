@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font: 20px Helvetica;
+      padding: 20px;
+    }
+    textarea {
+      width: 500px;
+      min-height: 100px;
+      display: block;
+    }
+    .styled {
+      box-sizing: border-box;
+      padding: 10px;
+      border: 1px solid #ddd;
+      font-family: Helvetica, sans-serif;
+      font-size: 23px;
+    }
+  </style>
+</head>
+<body>
+<form>
+  <textarea autofocus></textarea>
+  <textarea class="styled"></textarea>
+  <p>
+    <button>Load long text</button>
+    <input type=reset>
+  </p>
+  <div id="long-text" hidden>Long and well reasoned argument
+about talking about long and well reasoned arguments
+and how they long
+and well reasoned
+and argue things of value.
+
+Maybe.
+
+Honestly, though, this is just long.
+
+Long enough, in any case.
+  </div>
+</form>
+
+<script type="module">
+import autosize from '../dist/textarea-autosize.esm.js'
+
+for (const textarea of document.getElementsByTagName('textarea')) {
+  autosize(textarea)
+}
+
+document.querySelector('button').addEventListener('click', event => {
+  event.preventDefault()
+  for (const textarea of document.getElementsByTagName('textarea')) {
+    textarea.value = document.getElementById('long-text').textContent
+    textarea.dispatchEvent(new Event('change'))
+  }
+})
+</script>
+
+
+</body>
+</html>

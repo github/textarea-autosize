@@ -1,0 +1,7 @@
+/* @flow strict */
+
+declare export default function autosize(textarea: HTMLTextAreaElement): Subscription;
+
+interface Subscription {
+  unsubscribe(): void;
+}
