@@ -1,6 +1,6 @@
 # Textarea Autosize
 
-Autosizes textarea to size of it's contents.
+Autosizes textarea to size of its contents.
 
 ## Installation
 
