@@ -20,6 +20,7 @@ autosize(document.querySelector('textarea.foo'))
 Using a library like [selector-observer](https://github.com/josh/selector-observer), the behavior can automatically be applied to any textareas matching a class name.
 
 ```js
+import {observe} from 'selector-observer'
 import autosize from '@github/textarea-autosize'
 
 observe('textarea.autosize', { subscribe: autosize })
