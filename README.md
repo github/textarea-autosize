@@ -15,6 +15,14 @@ import autosize from '@github/textarea-autosize'
 autosize(document.querySelector('textarea.foo'))
 ```
 
+## Browser support
+
+- Chrome
+- Firefox
+- Safari
+- Internet Explorer 11
+- Microsoft Edge
+
 ## Development
 
 ```
