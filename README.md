@@ -10,9 +10,19 @@ $ npm install @github/textarea-autosize
 
 ## Usage
 
+The autosizing behavior must be explicitly activated on the `<textarea>`.
+
 ```js
 import autosize from '@github/textarea-autosize'
 autosize(document.querySelector('textarea.foo'))
+```
+
+Using a library like [selector-observer](https://github.com/josh/selector-observer), the behavior can automatically be applied to any textareas matching a class name.
+
+```js
+import autosize from '@github/textarea-autosize'
+
+observe('textarea.autosize', { subscribe: autosize })
 ```
 
 ## Browser support
