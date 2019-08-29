@@ -17,7 +17,8 @@
     "build-flow": "cp textarea-autosize.js.flow dist/textarea-autosize.esm.js.flow && cp textarea-autosize.js.flow dist/textarea-autosize.umd.js.flow",
     "test": "echo",
     "pretest": "npm run build",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "postpublish": "npm publish --ignore-scripts --@github:registry='https://npm.pkg.github.com'"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
