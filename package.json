@@ -1,7 +1,7 @@
 {
   "name": "@github/textarea-autosize",
   "description": "Autosizes textarea to size of it's contents.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/textarea-autosize.umd.js",
   "module": "dist/textarea-autosize.esm.js",
   "license": "MIT",
