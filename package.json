@@ -4,10 +4,12 @@
   "version": "0.1.1",
   "main": "dist/textarea-autosize.umd.js",
   "module": "dist/textarea-autosize.esm.js",
+  "types": "index.d.ts",
   "license": "MIT",
   "repository": "github/textarea-autosize",
   "files": [
-    "dist"
+    "dist",
+    "index.d.ts"
   ],
   "scripts": {
     "clean": "rm -rf dist",
