@@ -5,6 +5,7 @@
   "main": "dist/textarea-autosize.umd.js",
   "module": "dist/textarea-autosize.esm.js",
   "types": "index.d.ts",
+  "side-effects": false,
   "license": "MIT",
   "repository": "github/textarea-autosize",
   "files": [
