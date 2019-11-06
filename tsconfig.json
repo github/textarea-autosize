@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es2018",
+    "strict": true,
+    "declaration": true,
+    "outDir": "dist",
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "allowJs": true
+  },
+  "files": [
+    "src/textarea-autosize.js"
+  ]
+}
