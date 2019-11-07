@@ -27,8 +27,7 @@
   },
   "eslintIgnore": [
     "dist/",
-    "prettier.config.js",
-    "textarea-autosize.d.ts"
+    "prettier.config.js"
   ],
   "dependencies": {}
 }
