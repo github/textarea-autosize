@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "eslint": "^6.6.0",
-    "eslint-plugin-github": "^3.2.1",
+    "eslint-plugin-github": "^3.2.2",
     "typescript": "^3.7.2"
   },
   "eslintIgnore": [
