@@ -14,7 +14,7 @@
     "clean": "rm -rf dist",
     "lint": "github-lint",
     "prebuild": "npm run clean && npm run lint && mkdir dist",
-    "build": "tsc && cp textarea-autosize.js.flow dist/textarea-autosize.js.flow",
+    "build": "tsc",
     "test": "echo",
     "pretest": "npm run build",
     "prepublishOnly": "npm run build",
