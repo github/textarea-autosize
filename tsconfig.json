@@ -10,6 +10,6 @@
     "allowJs": true
   },
   "files": [
-    "src/textarea-autosize.js"
+    "src/index.js"
   ]
 }
