@@ -2,36 +2,32 @@
   "name": "@github/textarea-autosize",
   "description": "Autosizes textarea to size of it's contents.",
   "version": "0.1.3",
-  "main": "dist/textarea-autosize.umd.js",
-  "module": "dist/textarea-autosize.esm.js",
-  "types": "index.d.ts",
+  "main": "dist/umd/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "repository": "github/textarea-autosize",
   "files": [
-    "dist",
-    "index.d.ts"
+    "dist"
   ],
   "scripts": {
     "clean": "rm -rf dist",
     "lint": "github-lint",
     "prebuild": "npm run clean && npm run lint && mkdir dist",
-    "build": "rollup -c && npm run build-flow",
-    "build-flow": "cp textarea-autosize.js.flow dist/textarea-autosize.esm.js.flow && cp textarea-autosize.js.flow dist/textarea-autosize.umd.js.flow",
+    "build": "tsc --outDir dist/umd/ --module umd && tsc",
     "test": "echo",
     "pretest": "npm run build",
     "prepublishOnly": "npm run build",
     "postpublish": "npm publish --ignore-scripts --@github:registry='https://npm.pkg.github.com'"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015-rollup": "^3.0.0",
-    "eslint": "^5.1.0",
-    "eslint-plugin-github": "^1.1.3",
-    "rollup": "^0.64.0",
-    "rollup-plugin-babel": "^3.0.7"
+    "eslint": "^6.6.0",
+    "eslint-plugin-github": "^3.2.2",
+    "typescript": "^3.7.2"
   },
   "eslintIgnore": [
     "dist/",
     "prettier.config.js"
-  ]
+  ],
+  "dependencies": {}
 }
