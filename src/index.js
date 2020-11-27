@@ -48,7 +48,15 @@ export default function autosize(textarea) {
       return
     }
 
-    const maxHeight = Number(getComputedStyle(textarea).height.replace(/px/, '')) + bottom
+    const textareaStyle = getComputedStyle(textarea)
+
+    const topBorderWidth = Number(textareaStyle.borderTopWidth.replace(/px/, ''))
+    const bottomBorderWidth = Number(textareaStyle.borderBottomWidth.replace(/px/, ''))
+
+    const isBorderBox = textareaStyle.boxSizing === 'border-box'
+    const borderAddOn = isBorderBox ? topBorderWidth + bottomBorderWidth : 0
+
+    const maxHeight = Number(textareaStyle.height.replace(/px/, '')) + bottom
     textarea.style.maxHeight = `${maxHeight - 100}px`
 
     const container = textarea.parentElement
@@ -56,7 +64,7 @@ export default function autosize(textarea) {
       const containerHeight = container.style.height
       container.style.height = getComputedStyle(container).height
       textarea.style.height = 'auto'
-      textarea.style.height = `${textarea.scrollHeight}px`
+      textarea.style.height = `${textarea.scrollHeight + borderAddOn}px`
       container.style.height = containerHeight
       height = textarea.style.height
     }
