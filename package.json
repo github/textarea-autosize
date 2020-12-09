@@ -15,7 +15,7 @@
     "lint": "github-lint",
     "prebuild": "npm run clean && npm run lint && mkdir dist",
     "build": "tsc --outDir dist/umd/ --module umd && tsc",
-    "test": "echo",
+    "test": "echo 'There are no tests here'",
     "pretest": "npm run build",
     "prepublishOnly": "npm run build",
     "postpublish": "npm publish --ignore-scripts --@github:registry='https://npm.pkg.github.com'"
