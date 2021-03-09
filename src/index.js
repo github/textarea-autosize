@@ -1,4 +1,4 @@
-export default function autosize(textarea) {
+export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
   let previousValue = null
   let isUserResized = false
 
@@ -57,7 +57,8 @@ export default function autosize(textarea) {
     const borderAddOn = isBorderBox ? topBorderWidth + bottomBorderWidth : 0
 
     const maxHeight = Number(textareaStyle.height.replace(/px/, '')) + bottom
-    textarea.style.maxHeight = `${maxHeight - 100}px`
+    const adjustedViewportMarginBottom = bottom < viewportMarginBottom ? bottom : viewportMarginBottom
+    textarea.style.maxHeight = `${maxHeight - adjustedViewportMarginBottom}px`
 
     const container = textarea.parentElement
     if (container instanceof HTMLElement) {
