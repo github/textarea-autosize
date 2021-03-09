@@ -44,19 +44,22 @@ Long enough, in any case.
 </form>
 
 <script type="module">
-import autosize from '../dist/textarea-autosize.js'
+(async function() {
+  //const autosize = (await import('../dist/index.js')).default
+  const autosize = (await import('https://unpkg.com/@github/textarea-autosize@latest/dist/index.js')).default
 
-for (const textarea of document.getElementsByTagName('textarea')) {
-  autosize(textarea)
-}
-
-document.querySelector('button').addEventListener('click', event => {
-  event.preventDefault()
   for (const textarea of document.getElementsByTagName('textarea')) {
-    textarea.value = document.getElementById('long-text').textContent
-    textarea.dispatchEvent(new Event('change'))
+    autosize(textarea)
   }
-})
+
+  document.querySelector('button').addEventListener('click', event => {
+    event.preventDefault()
+    for (const textarea of document.getElementsByTagName('textarea')) {
+      textarea.value = document.getElementById('long-text').textContent
+      textarea.dispatchEvent(new Event('change'))
+    }
+  })
+})()
 </script>
 
 
