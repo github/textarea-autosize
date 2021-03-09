@@ -46,7 +46,7 @@ Long enough, in any case.
 <script type="module">
 (async function() {
   //const autosize = (await import('../dist/index.js')).default
-  const autosize = (await import('https://cdn.jsdelivr.net/npm/@github/textarea-autosize/dist/index.js')).default
+  const autosize = (await import('https://unpkg.com/@github/textarea-autosize@latest/dist/index.js')).default
 
   for (const textarea of document.getElementsByTagName('textarea')) {
     autosize(textarea)
