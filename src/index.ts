@@ -80,9 +80,7 @@ export default function autosize(textarea: HTMLTextAreaElement, {viewportMarginB
   }
 
   function onFormReset() {
-    const options = map.get(textarea) || {}
-    options.isUserResized = false
-    map.set(textarea, options)
+    map.set(textarea, {})
 
     textarea.style.height = ''
     textarea.style.maxHeight = ''
