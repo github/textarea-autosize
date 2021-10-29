@@ -8,6 +8,7 @@ interface TextAreaData {
 
 const map = new WeakMap<HTMLTextAreaElement, TextAreaData>()
 
+// Check if textarea has been resized by the user.
 function onUserResize(event: MouseEvent) {
   const textarea = event.currentTarget as HTMLTextAreaElement
   const options = map.get(textarea) || {}
