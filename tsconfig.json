@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
     "module": "esnext",
-    "target": "es5",
+    "target": "esnext",
     "strict": true,
     "declaration": true,
     "outDir": "dist",
-    "removeComments": true,
-    "preserveConstEnums": true
+    "lib": ["esnext", "dom"]
   },
   "files": [
     "src/index.ts"

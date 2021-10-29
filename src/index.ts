@@ -1,53 +1,53 @@
-interface Subscription {
-  unsubscribe(): void
+interface TextAreaData {
+  previousValue?: string
+  previousHeight?: string
+  x?: number
+  y?: number
+  isUserResized?: boolean
 }
 
-export default function autosize(textarea: HTMLTextAreaElement, {viewportMarginBottom = 100} = {}): Subscription {
-  let previousValue: string | null = null
-  let isUserResized = false
+const map = new WeakMap<HTMLTextAreaElement, TextAreaData>()
 
-  let x: number
-  let y: number
-  let height: string
-
-  function onUserResize(event: MouseEvent) {
-    if (x !== event.clientX || y !== event.clientY) {
-      const newHeight = textarea.style.height
-      if (height && height !== newHeight) {
-        isUserResized = true
-        textarea.style.maxHeight = ''
-        textarea.removeEventListener('mousemove', onUserResize)
-      }
-      height = newHeight
+// Check if textarea has been resized by the user.
+function onUserResize(event: MouseEvent) {
+  const textarea = event.currentTarget as HTMLTextAreaElement
+  const options = map.get(textarea) || {}
+  if (options.x !== event.clientX || options.y !== event.clientY) {
+    const newHeight = textarea.style.height
+    if (options.previousHeight && options.previousHeight !== newHeight) {
+      options.isUserResized = true
+      textarea.style.maxHeight = ''
+      textarea.removeEventListener('mousemove', onUserResize)
     }
-
-    x = event.clientX
-    y = event.clientY
+    options.previousHeight = newHeight
   }
 
-  const document = textarea.ownerDocument
-  const documentElement = document.documentElement
+  options.x = event.clientX
+  options.y = event.clientY
+  map.set(textarea, options)
+}
 
-  function overflowOffset() {
-    let offsetTop = 0
-    let el = textarea
+function overflowOffset(textarea: HTMLElement) {
+  let offsetTop = 0
+  let el = textarea
 
-    while (el !== document.body && el !== null) {
-      offsetTop += el.offsetTop || 0
-      el = el.offsetParent as HTMLTextAreaElement
-    }
-
-    const top = offsetTop - document.defaultView!.pageYOffset
-    const bottom = documentElement.clientHeight - (top + textarea.offsetHeight)
-    return {top, bottom}
+  while (el !== textarea.ownerDocument.body && el !== null) {
+    offsetTop += el.offsetTop || 0
+    el = el.offsetParent as HTMLTextAreaElement
   }
 
+  const top = offsetTop - textarea.ownerDocument.defaultView!.pageYOffset
+  const bottom = textarea.ownerDocument.documentElement.clientHeight - (top + textarea.offsetHeight)
+  return {top, bottom}
+}
+
+export default function autosize(textarea: HTMLTextAreaElement, {viewportMarginBottom = 100} = {}) {
   function sizeToFit() {
-    if (isUserResized) return
-    if (textarea.value === previousValue) return
+    if (map.get(textarea)?.isUserResized) return
+    if (textarea.value === map.get(textarea)?.previousValue) return
     if (textarea.offsetWidth <= 0 && textarea.offsetHeight <= 0) return
 
-    const {top, bottom} = overflowOffset()
+    const {top, bottom} = overflowOffset(textarea)
     if (top < 0 || bottom < 0) {
       return
     }
@@ -71,14 +71,18 @@ export default function autosize(textarea: HTMLTextAreaElement, {viewportMarginB
       textarea.style.height = 'auto'
       textarea.style.height = `${textarea.scrollHeight + borderAddOn}px`
       container.style.height = containerHeight
-      height = textarea.style.height
+      const options = map.get(textarea) || {}
+      options.previousHeight = textarea.style.height
     }
 
-    previousValue = textarea.value
+    const options = map.get(textarea) || {}
+    options.previousValue = textarea.value
+    map.set(textarea, options)
   }
 
   function onFormReset() {
-    isUserResized = false
+    map.set(textarea, {})
+
     textarea.style.height = ''
     textarea.style.maxHeight = ''
   }
