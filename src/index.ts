@@ -64,6 +64,8 @@ export default function autosize(textarea: HTMLTextAreaElement, {viewportMarginB
     const adjustedViewportMarginBottom = bottom < viewportMarginBottom ? bottom : viewportMarginBottom
     textarea.style.maxHeight = `${maxHeight - adjustedViewportMarginBottom}px`
 
+    const scrollPosition = document.documentElement.scrollTop
+
     const container = textarea.parentElement
     if (container instanceof HTMLElement) {
       const containerHeight = container.style.height
@@ -73,6 +75,7 @@ export default function autosize(textarea: HTMLTextAreaElement, {viewportMarginB
       container.style.height = containerHeight
       const options = map.get(textarea) || {}
       options.previousHeight = textarea.style.height
+      document.documentElement.scrollTop = scrollPosition
     }
 
     const options = map.get(textarea) || {}
