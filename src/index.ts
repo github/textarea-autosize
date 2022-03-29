@@ -1,12 +1,16 @@
-export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
-  let previousValue = null
+interface Subscription {
+  unsubscribe(): void
+}
+
+export default function autosize(textarea: HTMLTextAreaElement, {viewportMarginBottom = 100} = {}): Subscription {
+  let previousValue: string | null = null
   let isUserResized = false
 
-  let x
-  let y
-  let height
+  let x: number
+  let y: number
+  let height: string
 
-  function onUserResize(event) {
+  function onUserResize(event: MouseEvent) {
     if (x !== event.clientX || y !== event.clientY) {
       const newHeight = textarea.style.height
       if (height && height !== newHeight) {
@@ -30,10 +34,10 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
 
     while (el !== document.body && el !== null) {
       offsetTop += el.offsetTop || 0
-      el = el.offsetParent
+      el = el.offsetParent as HTMLTextAreaElement
     }
 
-    const top = offsetTop - document.defaultView.pageYOffset
+    const top = offsetTop - document.defaultView!.pageYOffset
     const bottom = documentElement.clientHeight - (top + textarea.offsetHeight)
     return {top, bottom}
   }

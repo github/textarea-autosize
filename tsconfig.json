@@ -6,10 +6,9 @@
     "declaration": true,
     "outDir": "dist",
     "removeComments": true,
-    "preserveConstEnums": true,
-    "allowJs": true
+    "preserveConstEnums": true
   },
   "files": [
-    "src/index.js"
+    "src/index.ts"
   ]
 }

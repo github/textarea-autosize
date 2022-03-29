@@ -4,6 +4,7 @@
   "extends": [
     "plugin:github/internal",
     "plugin:github/recommended",
-    "plugin:github/browser"
+    "plugin:github/browser",
+    "plugin:github/typescript"
   ]
 }
