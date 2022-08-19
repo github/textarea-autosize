@@ -82,6 +82,7 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
   textarea.addEventListener('mousemove', onUserResize)
   textarea.addEventListener('input', sizeToFit)
   textarea.addEventListener('change', sizeToFit)
+  textarea.addEventListenter('paste', sizeToFit)
   const form = textarea.form
   if (form) form.addEventListener('reset', onFormReset)
   if (textarea.value) sizeToFit()
@@ -91,6 +92,7 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
       textarea.removeEventListener('mousemove', onUserResize)
       textarea.removeEventListener('input', sizeToFit)
       textarea.removeEventListener('change', sizeToFit)
+      textarea.removeEventListener('paste', sizeToFit)
       if (form) form.removeEventListener('reset', onFormReset)
     }
   }
