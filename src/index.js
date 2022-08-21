@@ -82,7 +82,7 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
   textarea.addEventListener('mousemove', onUserResize)
   textarea.addEventListener('input', sizeToFit)
   textarea.addEventListener('change', sizeToFit)
-  textarea.addEventListenter('paste', sizeToFit)
+  textarea.addEventListener('paste', sizeToFit)
   const form = textarea.form
   if (form) form.addEventListener('reset', onFormReset)
   if (textarea.value) sizeToFit()
