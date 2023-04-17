@@ -50,13 +50,13 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
 
     const textareaStyle = getComputedStyle(textarea)
 
-    const topBorderWidth = Number(textareaStyle.borderTopWidth.replace(/px/, ''))
-    const bottomBorderWidth = Number(textareaStyle.borderBottomWidth.replace(/px/, ''))
+    const topBorderWidth = parseFloat(textareaStyle.borderTopWidth)
+    const bottomBorderWidth = parseFloat(textareaStyle.borderBottomWidth)
 
     const isBorderBox = textareaStyle.boxSizing === 'border-box'
     const borderAddOn = isBorderBox ? topBorderWidth + bottomBorderWidth : 0
 
-    const maxHeight = Number(textareaStyle.height.replace(/px/, '')) + bottom
+    const maxHeight = parseFloat(textareaStyle.height) + bottom
     const adjustedViewportMarginBottom = bottom < viewportMarginBottom ? bottom : viewportMarginBottom
     textarea.style.maxHeight = `${maxHeight - adjustedViewportMarginBottom}px`
 
