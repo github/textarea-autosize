@@ -117,9 +117,9 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
 
   if (typeof ResizeObserver !== 'undefined') {
     const resizeObserver = new ResizeObserver(() => {
-      // Only act once the library has set a height; before the first sizeToFit
-      // call, height is null and there is nothing to compare against.
-      if (!height) return
+      // Only act once the library has set a height, and stop once a user resize
+      // has already been detected — no further work is needed after that point.
+      if (!height || isUserResized) return
 
       // If the textarea's inline height no longer matches what the library last
       // wrote, the change was not library-initiated — treat it as a user drag.
@@ -128,11 +128,8 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
         // Invalidate the style cache: an external resize may indicate that CSS
         // has changed (e.g. a responsive breakpoint altered border widths).
         cachedBorderAddOn = null
-
-        if (!isUserResized) {
-          isUserResized = true
-          textarea.style.maxHeight = ''
-        }
+        isUserResized = true
+        textarea.style.maxHeight = ''
       }
     })
     resizeObserver.observe(textarea)
@@ -156,12 +153,7 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
       lastClientY = event.clientY
     }
 
-    const onMousedown = () => {
-      // Remove before adding to ensure the listener is never registered twice
-      // (e.g. if mousedown fires while a previous drag is still active).
-      textarea.removeEventListener('mousemove', onUserResize)
-      textarea.addEventListener('mousemove', onUserResize)
-    }
+    const onMousedown = () => textarea.addEventListener('mousemove', onUserResize)
     const onMouseup = () => textarea.removeEventListener('mousemove', onUserResize)
 
     textarea.addEventListener('mousedown', onMousedown)
