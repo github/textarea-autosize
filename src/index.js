@@ -51,7 +51,7 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
 
     // Use the library-tracked height when available to skip getComputedStyle on
     // every keystroke. Fall back to getComputedStyle before the first sizeToFit.
-    const currentHeight = height !== null ? parseFloat(height) : parseFloat(getComputedStyle(textarea).height)
+    const parsedHeight = height !== null ? parseFloat(height) : parseFloat(getComputedStyle(textarea).height)
 
     // Read the container's inline and computed heights now, before any writes,
     // so there is no read-after-write that would force an extra layout recalculation.
@@ -65,7 +65,7 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
 
     // Pure math — no DOM access.
     const adjustedViewportMarginBottom = bottom < viewportMarginBottom ? bottom : viewportMarginBottom
-    const maxHeight = currentHeight + bottom
+    const maxHeight = parsedHeight + bottom
 
     // -- WRITES --
 
@@ -113,10 +113,14 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
   // The fallback (for environments without ResizeObserver) gates a mousemove
   // handler behind mousedown/mouseup so it is only active during an active drag.
 
-  let cleanupResizeDetection
+  let cleanupResizeDetection = () => {}
 
   if (typeof ResizeObserver !== 'undefined') {
     const resizeObserver = new ResizeObserver(() => {
+      // Only act once the library has set a height; before the first sizeToFit
+      // call, height is null and there is nothing to compare against.
+      if (!height) return
+
       // If the textarea's inline height no longer matches what the library last
       // wrote, the change was not library-initiated — treat it as a user drag.
       const currentHeight = textarea.style.height
@@ -125,7 +129,7 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
         // has changed (e.g. a responsive breakpoint altered border widths).
         cachedBorderAddOn = null
 
-        if (!isUserResized && height) {
+        if (!isUserResized) {
           isUserResized = true
           textarea.style.maxHeight = ''
         }
@@ -136,31 +140,37 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
   } else {
     // Fallback: attach mousemove only while a pointer button is held so the
     // high-frequency handler is not active during normal (non-drag) use.
-    let x
-    let y
+    let lastClientX
+    let lastClientY
 
     const onUserResize = event => {
-      if (x !== event.clientX || y !== event.clientY) {
+      if (lastClientX !== event.clientX || lastClientY !== event.clientY) {
         const newHeight = textarea.style.height
         if (height && height !== newHeight) {
           isUserResized = true
           textarea.style.maxHeight = ''
-          textarea.removeEventListener('mousemove', onUserResize)
+          height = newHeight
         }
-        height = newHeight
       }
-      x = event.clientX
-      y = event.clientY
+      lastClientX = event.clientX
+      lastClientY = event.clientY
     }
 
-    const onMousedown = () => textarea.addEventListener('mousemove', onUserResize)
+    const onMousedown = () => {
+      // Remove before adding to ensure the listener is never registered twice
+      // (e.g. if mousedown fires while a previous drag is still active).
+      textarea.removeEventListener('mousemove', onUserResize)
+      textarea.addEventListener('mousemove', onUserResize)
+    }
     const onMouseup = () => textarea.removeEventListener('mousemove', onUserResize)
 
     textarea.addEventListener('mousedown', onMousedown)
-    textarea.addEventListener('mouseup', onMouseup)
+    // Listen for mouseup on the document so the mousemove handler is removed
+    // even when the pointer is released outside the textarea during a drag.
+    document.addEventListener('mouseup', onMouseup)
     cleanupResizeDetection = () => {
       textarea.removeEventListener('mousedown', onMousedown)
-      textarea.removeEventListener('mouseup', onMouseup)
+      document.removeEventListener('mouseup', onMouseup)
       // Remove mousemove too in case mouseup never fired (e.g. pointer left window).
       textarea.removeEventListener('mousemove', onUserResize)
     }
