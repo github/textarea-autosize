@@ -49,9 +49,9 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
       cachedBorderAddOn = s.boxSizing === 'border-box' ? topBorderWidth + bottomBorderWidth : 0
     }
 
-    // Use the library-tracked height when available to skip getComputedStyle on
-    // every keystroke. Fall back to getComputedStyle before the first sizeToFit.
-    const parsedHeight = height !== null ? parseFloat(height) : parseFloat(getComputedStyle(textarea).height)
+    // maxHeight must derive from the *rendered* height (post min/max-height clamping),
+    // so read computed height here; only the border add-on is safely cached.
+    const parsedHeight = parseFloat(getComputedStyle(textarea).height)
 
     // Read the container's inline and computed heights now, before any writes,
     // so there is no read-after-write that would force an extra layout recalculation.
