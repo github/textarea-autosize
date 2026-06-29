@@ -13,10 +13,6 @@ function waitFor(fn, {timeout = 1000} = {}) {
   return vi.waitFor(fn, {timeout})
 }
 
-function awaitFrame() {
-  return new Promise(resolve => setTimeout(resolve, 50))
-}
-
 beforeEach(() => {
   form = document.createElement('form')
   textarea = document.createElement('textarea')
