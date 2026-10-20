@@ -74,6 +74,7 @@ export default function autosize(textarea, {viewportMarginBottom = 100} = {}) {
   }
 
   function onFormReset() {
+    previousValue = null
     isUserResized = false
     textarea.style.height = ''
     textarea.style.maxHeight = ''

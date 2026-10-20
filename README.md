@@ -41,6 +41,8 @@ npm install
 npm test
 ```
 
+The browser regression test is `test/reset.html`. Serve this repository over HTTP and open that page; it displays `PASS` when the checks succeed.
+
 ## License
 
 Distributed under the MIT license. See LICENSE for details.
