@@ -16,6 +16,7 @@
 
   form.reset()
   if (textarea.style.height !== '') throw new Error('Reset must clear the height')
+  textarea.dispatchEvent(new MouseEvent('mousemove', {clientX: 10, clientY: 10}))
   textarea.value = content
   textarea.dispatchEvent(new Event('input'))
   if (textarea.style.height !== height) throw new Error('Retyping the same value after reset must resize')
