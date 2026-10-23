@@ -1,0 +1,27 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Textarea autosize reset regression</title>
+<form><div><textarea rows="1" style="width: 200px"></textarea></div></form>
+<pre id="result">Running</pre>
+<script type="module">
+  import autosize from '../src/index.js'
+
+  const textarea = document.querySelector('textarea')
+  const form = document.querySelector('form')
+  const content = 'A line\n'.repeat(8)
+  textarea.value = content
+  const subscription = autosize(textarea)
+  const height = textarea.style.height
+  if (!height || textarea.scrollHeight > textarea.clientHeight + 1) throw new Error('Initial value must fit')
+
+  form.reset()
+  if (textarea.style.height !== '') throw new Error('Reset must clear the height')
+  textarea.dispatchEvent(new MouseEvent('mousemove', {clientX: 10, clientY: 10}))
+  textarea.value = content
+  textarea.dispatchEvent(new Event('input'))
+  if (textarea.style.height !== height) throw new Error('Retyping the same value after reset must resize')
+  if (textarea.scrollHeight > textarea.clientHeight + 1) throw new Error('Retyped content must fit')
+
+  subscription.unsubscribe()
+  document.querySelector('#result').textContent = 'PASS'
+</script>
